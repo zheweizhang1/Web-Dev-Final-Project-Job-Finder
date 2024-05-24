@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Link to external stylesheet -->
+</head>
+<body>
+    <h1>Job Listings</h1>
+    
+    <div class="container">
+        <!-- Form to input query parameters -->
+        <div class="form-container">
+            <form action="/search" method="GET"> <!-- Form for submitting search parameters -->
+                <label for="count">Count:</label>
+                <input type="number" id="count" name="count" value="<%= count || 50 %>" min="1" max="50"> <!-- Input field for count parameter with default value of 50 -->
+
+                <label for="geo">Geo:</label>
+                <select id="geo" name="geo"> <!-- Dropdown for geo parameter -->
+                    <option value="" <%= geo === '' ? 'selected' : '' %>>Select a country or region</option> <!-- Default option -->
+                    <option value="latam" <%= geo === 'latam' ? 'selected' : '' %>>LATAM</option>
+                    <option value="emea" <%= geo === 'emea' ? 'selected' : '' %>>EMEA</option>
+                    <option value="apac" <%= geo === 'apac' ? 'selected' : '' %>>APAC</option>
+                    <option value="usa" <%= geo === 'usa' ? 'selected' : '' %>>United States</option>
+                    <option value="canada" <%= geo === 'canada' ? 'selected' : '' %>>Canada</option>
+                    <option value="mexico" <%= geo === 'mexico' ? 'selected' : '' %>>Mexico</option>
+                    <option value="brazil" <%= geo === 'brazil' ? 'selected' : '' %>>Brazil</option>
+                    <option value="uk" <%= geo === 'uk' ? 'selected' : '' %>>United Kingdom</option>
+                    <option value="germany" <%= geo === 'germany' ? 'selected' : '' %>>Germany</option>
+                    <option value="france" <%= geo === 'france' ? 'selected' : '' %>>France</option>
+                    <option value="china" <%= geo === 'china' ? 'selected' : '' %>>China</option>
+                    <option value="india" <%= geo === 'india' ? 'selected' : '' %>>India</option>
+                    <option value="japan" <%= geo === 'japan' ? 'selected' : '' %>>Japan</option>
+                </select>
+
+                <label for="industry">Industry:</label>
+                <select id="industry" name="industry"> <!-- Dropdown for industry parameter -->
+                    <option value="" <%= industry === '' ? 'selected' : '' %>>Select an industry</option> <!-- Default option -->
+                    <option value="accounting-finance" <%= industry === 'accounting-finance' ? 'selected' : '' %>>Accounting & Finance</option>
+                    <option value="customer-service" <%= industry === 'customer-service' ? 'selected' : '' %>>Customer Service</option>
+                    <option value="design-creative" <%= industry === 'design-creative' ? 'selected' : '' %>>Design & Creative</option>
+                    <option value="developer-programming" <%= industry === 'developer-programming' ? 'selected' : '' %>>Developer & Programming</option>
+                    <option value="editing-writing" <%= industry === 'editing-writing' ? 'selected' : '' %>>Editing & Writing</option>
+                    <option value="hr-recruiting" <%= industry === 'hr-recruiting' ? 'selected' : '' %>>HR & Recruiting</option>
+                    <option value="legal" <%= industry === 'legal' ? 'selected' : '' %>>Legal</option>
+                    <option value="marketing" <%= industry === 'marketing' ? 'selected' : '' %>>Marketing</option>
+                    <option value="project-management" <%= industry === 'project-management' ? 'selected' : '' %>>Project Management</option>
+                    <option value="sales" <%= industry === 'sales' ? 'selected' : '' %>>Sales</option>
+                    <option value="virtual-assistant" <%= industry === 'virtual-assistant' ? 'selected' : '' %>>Virtual Assistant</option>
+                </select>
+
+                <label for="tag">Tag:</label>
+                <input type="text" id="tag" name="tag" value="<%= tag || '' %>"> <!-- Input field for tag parameter with default value -->
+
+                <button type="submit">Search</button> <!-- Submit button to trigger search -->
+            </form>
+        </div>
+
+        <!-- Display job listings here -->
+        <div class="results-container">
+            <% if (jobs && jobs.length) { %> <!-- Check if jobs array exists and has items -->
+                <ul>
+                    <% jobs.forEach(job => { %> <!-- Loop through each job in the jobs array -->
+                        <li class="job-listing">
+                            <h2><%= job.jobTitle %></h2> <!-- Display job title -->
+                            <p><%= job.jobExcerpt %></p> <!-- Display job excerpt -->
+                            <p><strong>Company:</strong> <%= job.companyName %></p> <!-- Display company name -->
+                            <p><strong>Location:</strong> <%= job.jobGeo %></p> <!-- Display job location -->
+                            <a href="<%= job.url %>" target="_blank">Read more</a> <!-- Link to read more about the job -->
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } else { %>
+                <p>No jobs available matching the criteria.</p> <!-- Display message if no jobs are available -->
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
